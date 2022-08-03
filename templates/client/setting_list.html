@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load client %}
+{% block title %}لیست سایت‌ها{% endblock %}
+{% load jformat %}
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+    {% comment %}{% include 'loader.html' %}{% endcomment %}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% include 'header.html' %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% include 'menu.html' %}
+
+    <!--app-content open-->
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">لیست سایت‌ها</h1>
+                    </div>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">داشبرد</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">لیست سایت‌ها</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <div class="row row-sm">
+                    <div class="col-lg-12">
+                        <div class="d-flex justify-content-end mb-4">
+                            <a href="{% url 'client:setting_create' %}" class="btn btn-primary">ساخت سایت جدید</a>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="d-flex">
+                                        <h4 class="mx-auto text-muted">صفحه‌ی {{ page.number|persian_numbers }}</h4>
+                                    </div>
+                                    <table class="table table-striped text-nowrap border-bottom" id="responsive-datatable">
+                                        <thead>
+                                            <tr>
+                                                <th class="wd-15p border-bottom-0">دارنده</th>
+                                                <th class="wd-10p border-bottom-0">نام دامنه</th>
+                                                <th class="wd-10p border-bottom-0">ویرایش سایت</th>
+{#                                                <th class="wd-25p border-bottom-0">وضعیت سایت</th>#}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for site in page %}
+                                                <tr>
+                                                    <td>{{ site.owner.get_full_name }}</td>
+                                                    <td>{{ site.domain }}</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-sm" href="{% url 'client:setting_edit' site.id %}">
+                                                            ویرایش سایت
+                                                        </a>
+                                                    </td>
+{#                                                    <td>#}
+{#                                                        <div class="d-flex">#}
+{#                                                            <div class="d-flex flex-column justify-content-around">#}
+{#                                                                <h5>سایت</h5>#}
+{#                                                                {% if site.extra.host %}#}
+{#                                                                    <small class="text-success">هاست ساخته شده</small>#}
+{#                                                                {% else %}#}
+{#                                                                    <small class="text-danger">هاست ساخته نشده</small>#}
+{#                                                                {% endif %}#}
+{#                                                                {% if site.extra.site %}#}
+{#                                                                    <small class="text-success">سایت ساخته شده</small>#}
+{#                                                                {% else %}#}
+{#                                                                    <small class="text-danger">سایت ساخته نشده</small>#}
+{#                                                                {% endif %}#}
+{#                                                                {% if site.extra.site %}#}
+{#                                                                    <small class="text-success">یوزر ساخته شده</small>#}
+{#                                                                {% else %}#}
+{#                                                                    <small class="text-danger">یوزر ساخته نشده</small>#}
+{#                                                                {% endif %}#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </td>#}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% include 'pagination.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+    {% comment %}
+    {% include 'side_bar.html' %}
+    {% endcomment %}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+    {% comment %}
+    {% include 'country_selector.html' %}
+    {% endcomment %}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}

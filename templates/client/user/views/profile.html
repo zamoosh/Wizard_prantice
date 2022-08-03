@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل{% endblock %}
+{% block css %}
+    <!-- jquery date picker css -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/jquery_persian_datepicker/kamadatepicker.min.css' %}">
+{% endblock %}
+{% block js %}
+    <script>
+        $('a[href="#next"], a[href="#finish"]').on('click', function () {
+            $.ajax({
+                url: '{% url "client:user:api_profile" %}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    'first_name': $('input[name="first_name"]').val(),
+                    'last_name': $('input[name="last_name"]').val(),
+                    'email': $('input[name="email"]').val()
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            console.log('click on a');
+        });
+    </script>
+{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+{#    {% include 'loader.html' %}#}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% include 'header.html' %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% include 'menu.html' %}
+
+    <!--app-content open-->
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">پروفایل کاربری</h1>
+                    </div>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="">خانه</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">پروفایل</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="card">
+                            {% comment %}
+                            <div class="card-header border-bottom-0">
+                                <div class="card-title">
+                                    Basic Wizard With Validation
+                                </div>
+                            </div>
+                            {% endcomment %}
+                            <div class="card-body">
+                                <div id="wizard2">
+                                    <h3>اطلاعات فردی</h3>
+                                    <section>
+                                        <form action="" class="form">
+                                            <div class="row ">
+                                                <div class="col-md-5 col-lg-4">
+                                                    <label class="form-control-label">نام
+                                                        <span class="tx-danger">*</span>
+                                                    </label>
+                                                    <input
+                                                        class="form-control" value="{{ user.first_name }}" id="first_name" name="first_name"
+                                                        placeholder="نام را وارد کنید" required="" type="text">
+                                                </div>
+                                                <div class="col-md-5 col-lg-4 mg-t-20 mg-md-t-0">
+                                                    <label class="form-control-label">نام‌خانوادگی
+                                                        <span class="tx-danger">*</span>
+                                                    </label>
+                                                    <input
+                                                        class="form-control" value="{{ user.last_name }}" id="last_name" name="last_name"
+                                                        placeholder="نام‌خانوادگی را وارد کنید" required="" type="text">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <h3>ایمیل</h3>
+                                    <section>
+                                        <p>لطفا ایمیل خود را وارد کنید.</p>
+                                        <div class="form-group wd-xs-300">
+                                            <label class="form-control-label">ایمیل
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control"
+                                                id="email" name="email" placeholder="Enter email address"
+                                                required="" type="email">
+                                        </div>
+                                    </section>
+                                    {% comment %} <h3>Payment Details</h3>
+                                    <section>
+                                        <div class="form-group">
+                                            <label class="form-label">CardHolder Name</label>
+                                            <input type="text" class="form-control" id="name11"
+                                                placeholder="First Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Card number</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Search for...">
+                                                <span class="input-group-text btn btn-info shadow-none mb-0">
+                                                    <i class="fa fa-cc-visa"></i> &nbsp;
+                                                    <i class="fa fa-cc-amex"></i> &nbsp;
+                                                    <i class="fa fa-cc-mastercard"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <div class="form-group mb-sm-0">
+                                                    <label class="form-label">Expiration</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" placeholder="MM"
+                                                            name="expiremonth">
+                                                        <input type="number" class="form-control" placeholder="YY"
+                                                            name="expireyear">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <div class="form-group mb-0">
+                                                    <label class="form-label">CVV <i
+                                                            class="fa fa-question-circle"></i></label>
+                                                    <input type="number" class="form-control" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+{#    {% include 'side_bar.html' %}#}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+{#    {% include 'country_selector.html' %}#}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}

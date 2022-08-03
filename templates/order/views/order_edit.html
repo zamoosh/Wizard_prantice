@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ویرایش سرویس{% endblock %}
+{% load jformat %}
+{% block css %}{% endblock %}
+{% block js %}
+
+    <!-- FILE UPLOADES JS -->
+    <script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+    <script src="{% static 'assets/plugins/fileuploads/js/file-upload.js' %}"></script>
+
+    <!-- INTERNAL File-Uploads Js-->
+    <script src="{% static 'assets/plugins/fancyuploder/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'assets/plugins/fancyuploder/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'assets/plugins/fancyuploder/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'assets/plugins/fancyuploder/jquery.fancy-fileupload.js' %}"></script>
+    <script src="{% static 'assets/plugins/fancyuploder/fancy-uploader.js' %}"></script>
+
+
+    <script>
+        {% if save %}
+            $(window).on('load', () => {
+                setTimeout(function () {
+                    Toastify({
+                        text: 'سرویس ساخته شد!',
+                        duration: 1500,
+                        newWindow: true,
+                        close: true,
+                        gravity: 'top', // `top` or `bottom`
+                        position: 'center', // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: 'rgb(108,95,252)',
+                        },
+                        onClick: function () {
+                        } // Callback after click
+                    }).showToast();
+                }, 350);
+            });
+        {% endif %}
+        {% if update %}
+            $(window).on('load', () => {
+                setTimeout(function () {
+                    Toastify({
+                        text: 'تغییرات با موفقیت ذخیره شدند!',
+                        duration: 1500,
+                        newWindow: true,
+                        close: true,
+                        gravity: 'top', // `top` or `bottom`
+                        position: 'center', // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: 'rgb(108,95,252)',
+                        },
+                        onClick: function () {
+                        } // Callback after click
+                    }).showToast();
+                }, 350);
+            });
+        {% endif %}
+    </script>
+{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+    {% comment %}{% include 'loader.html' %}{% endcomment %}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% include 'header.html' %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% include 'menu.html' %}
+
+    <!--app-content open-->
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">خدمات دوره‌ای</h1>
+                    </div>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'order:orders' %}">سرویس‌ها</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">خدمات دوره‌ای</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <form action="{% url 'order:order_edit' order.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        ساخت سرویس جدید
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12 mb-0">
+                                            <div class="form-group">
+                                                <label for="title" class="form-label h5">نام سرویس</label>
+                                                <input id="title" type="text" value="{{ order.title }}" class="form-control" placeholder="نام سرویس" name="title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                                <label for="price" class="form-label h5">قیمت سرویس</label>
+                                                <input id="price" type="number" value="{{ order.price }}" class="form-control" placeholder="قیمت سرویس" name="price">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                                <label for="period" class="form-label">مدت‌زمان دوره به روز</label>
+                                                <select id="period" name="period" class="form-control form-select select2" data-bs-placeholder="Select">
+                                                    <option value="1">۱ ماهه</option>
+                                                    <option value="3">۳ ماهه</option>
+                                                    <option value="6">۶ ماهه</option>
+                                                    <option value="12">۱۲ ماهه</option>
+                                                    <option value="-1">نامحدود</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12 mb-0">
+                                            <div class="form-group">
+                                                <label for="description" class="form-label h5">توضیحات</label>
+                                                <textarea id="description" class="form-control mb-4" rows="7" name="description" placeholder="توضیحات">{{ order.description }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-0">
+                                        <div class="form-group">
+                                            <label for="image">تصویر سرویس</label>
+                                            <input name="image" type="file" class="dropify" data-bs-height="200"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-0 d-flex justify-content-center">
+                                        {% if order.image %}
+                                            <img style="border-radius: 10px" src="{% url 'order:static_files' order.id %}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-footer mt-2">
+                                        <button type="submit" class="btn btn-primary">ثبت</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+    {% comment %}
+    {% include 'side_bar.html' %}
+    {% endcomment %}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+    {% comment %}
+    {% include 'country_selector.html' %}
+    {% endcomment %}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}

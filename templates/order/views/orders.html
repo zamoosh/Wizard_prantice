@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}زمان‌بندی{% endblock %}
+{% load jformat %}
+{% block css %}{% endblock %}
+{% block js %}
+    <script src="{% static 'assets/js/left_time/LeftTime.js' %}"></script>
+    <script>
+        let left_time = new LeftTime(Number(String({{ diff }})), 5);
+        setInterval(function () {
+            left_time.run();
+        }, 1000);
+    </script>
+{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+    {% comment %}{% include 'loader.html' %}{% endcomment %}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% include 'header.html' %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% include 'menu.html' %}
+
+    <!--app-content open-->
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">خدمات دوره‌ای</h1>
+                    </div>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'index' %}">داشبرد</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">خدمات دوره‌ای</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <div class="col-12">
+                    <div class="خدمات دوره‌ایrow">
+                        <div class="col-12">
+                            <!-- left time -->
+{#                            {% include 'left_time.html' %}#}
+                        </div>
+                    </div>
+
+
+                    <!-- services -->
+                    <div class="row">
+                    {% if user.is_superuser %}
+                        <div class="col-12 d-flex justify-content-end mb-2">
+                            <a class="btn btn-primary" href="{% url 'order:order_create' %}">
+                                <i class="bi bi-plus-lg"></i>
+                                سرویس جدید
+                            </a>
+                        </div>
+                    {% endif %}
+                        <div class="col-12">
+                            <div class="row">
+                                {% for order in page %}
+                                    <div class="col-md-6 col-xl-3 col-sm-6">
+                                        <div class="card">
+                                            <div class="product-grid6">
+                                                <div class="product-image6 p-5">
+                                                    <ul class="icons">
+                                                        <li>
+                                                            <a href="{% url 'order:order_detail' order.id %}"
+                                                               class="btn btn-primary">
+                                                                <i class="fe fe-eye"></i>
+                                                            </a>
+                                                        </li>
+                                                        {% if request.user.is_superuser %}
+                                                            <li>
+                                                                <a href="{% url 'order:order_edit' order.id %}"
+                                                                   class="btn btn-success">
+                                                                    <i class="fe fe-edit"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{% url 'order:order_delete' order.id %}"
+                                                                   class="btn btn-danger">
+                                                                    <i class="fe fe-x"></i>
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    </ul>
+                                                    <a href="{% url 'order:order_detail' order.id %}">
+                                                        {% if order.image and order.image.url %}
+                                                            <img class="img-fluid br-7 w-100" src="{% url 'order:static_files' order.id %}" alt="img">
+                                                        {% endif %}
+                                                    </a>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <div class="product-content text-center">
+                                                        <h1 class="title fw-bold fs-20">
+                                                            <a href="{% url 'order:order_edit' order.id %}">{{ order.title }}</a>
+                                                        </h1>
+                                                        <div class="mb-2 text-warning">
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star-half-o text-warning"></i>
+                                                            <i class="fa fa-star-o text-warning"></i>
+                                                        </div>
+                                                        <div class="price">
+                                                            ${{ order.price }}
+                                                            <span class="ms-4">$59</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer text-center">
+                                                    <a href="{% url 'order:order_buy' order.id %}" class="btn btn-primary mb-1">
+                                                        <i class="fe fe-shopping-cart mx-2"></i>خرید
+                                                    </a>
+                                                    {#                                        <a href="javascript:void(0)" class="btn btn-outline-primary mb-1">#}
+                                                    {#                                            <i class="fe fe-heart mx-2 wishlist-icon"></i>Add to wishlist#}
+                                                    {#                                        </a>#}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <div class="col-12">
+                                {% include 'pagination.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+    {% comment %}
+    {% include 'side_bar.html' %}
+    {% endcomment %}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+    {% comment %}
+    {% include 'country_selector.html' %}
+    {% endcomment %}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}

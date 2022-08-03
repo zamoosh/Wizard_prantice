@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load client %}
+{% block title %}اطلاعات سرویس{% endblock %}
+{% load jformat %}
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+    {% comment %}{% include 'loader.html' %}{% endcomment %}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% include 'header.html' %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% include 'menu.html' %}
+
+    <!--app-content open-->
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">مشخصات کامل سرویس و فاکتور</h1>
+                    </div>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'client:user_order:user_order' %}">سرویس‌ها</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">مشخصات کامل سرویس</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">مشخصات کامل سرویس و فاکتور</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="panel panel-primary">
+                                    <div class="tab-menu-heading">
+                                        <div class="tabs-menu">
+                                            <!-- Tabs -->
+                                            <ul class="nav panel-tabs">
+                                                <li><a href="#tab1" class="active" data-bs-toggle="tab">سرویس</a></li>
+                                                <li><a href="#tab2" data-bs-toggle="tab">فاکتور</a></li>
+                                                <li><a href="#tab3" data-bs-toggle="tab">سایت</a></li>
+                                                {% comment %} <li><a href="#tab3" data-bs-toggle="tab">Tab 3</a></li>
+                                                <li><a href="#tab4" data-bs-toggle="tab">Tab 4</a></li> {% endcomment %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body tabs-menu-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab1">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-start">
+                                                        <div class="mx-1">
+                                                            <h5 class="font-bold">اسم</h5>
+                                                        </div>
+                                                        <div class="mx-1">
+                                                            <a href="{% url 'order:order_detail' order_item.order.id %}" class="text-dark">
+                                                                <h5>{{ order_item.order.title|persian_numbers }}ماهه</h5>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-start">
+                                                        <div class="mx-1">
+                                                            <h5 class="font-bold">قیمت</h5>
+                                                        </div>
+                                                        <div class="mx-1">
+                                                            <h5>{{ order_item.order.price|persian_numbers }} هزارتومان</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-center mb-3 font-bold">
+                                                    مدت زمان سرویس
+                                                    {{ order_item.get_days|persian_numbers }}
+                                                    روزه
+                                                </div>
+                                                <div class="font-ultra-thin mb-4">{{ order_item.order.description|linebreaks }}</div>
+                                                <div class="row d-flex flex-column justify-content-center">
+                                                    <img src="{% url 'order:static_files' order_item.order.id %}"
+                                                         height="{% if order_item.order.image.height %}order_item.order.image.height{% else %}400{% endif %} "
+                                                         alt="" />
+                                                    <div class="d-flex justify-content-center mt-4">
+                                                        <a href="{% url 'order:order_detail' order_item.order.id %}" class="btn btn-primary">
+                                                            مشاهده‌ی سرویس خریداری شده
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab2">
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-center mb-3">
+                                                        <h5 class="font-bold">مشخصات فاکتور</h5>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12 mb-4">
+                                                                <div class="row">
+                                                                    <div class="col-6 font-bold">
+                                                                        وضعیت پرداخت
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        {% if order_item.bill.paid %}
+                                                                            <p class="text-success">پرداخت شده</p>
+                                                                        {% else %}
+                                                                            <p>پرداخت نشده</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 mb-4">
+                                                                <div class="row">
+                                                                    <div class="col-6 font-bold">تاریخ پرداخت</div>
+                                                                    <div class="col-6">
+                                                                        {% if order_item.bill.pay_date %}
+                                                                            {{ order_item.bill.pay_date|jformat:'%Y/%m/%d %H:%M:%S' }}
+                                                                        {% else %}
+                                                                            پرداخت نشده
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 mb-4">
+                                                                <div class="row text-danger">
+                                                                    <div class="col-6 font-bold">تاریخ انقضا</div>
+                                                                    <div class="col-6">
+                                                                        {% if order_item.bill.pay_date %}
+                                                                            {{ order_item.ended_at|jformat:'%Y/%m/%d %H:%M:%S' }}
+                                                                        {% else %}
+                                                                            پرداخت نشده
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 mb-4">
+                                                                <div class="row">
+                                                                    <div class="col-12 d-flex justify-content-center">
+                                                                        {% if not order_item.bill.paid %}
+                                                                            <form action="{% url 'bill:user_order_bill:user_order_pry' order_item.id order_item.setting.id %}"
+                                                                                method="post">
+                                                                                {% csrf_token %}
+                                                                                <button class="btn btn-primary" type="submit">
+                                                                                    پرداخت فاکتور
+                                                                                </button>
+                                                                            </form>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab3">
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-center">
+                                                        <a class="btn btn-primary font-bold h5" href="{% url 'client:setting' %}">
+                                                            مشاهده‌ی سایت
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% comment %} <div class="tab-pane" id="tab4">
+                                                <p>page editors now use Lorem Ipsum as their default model text, and a
+                                                    search for 'lorem ipsum' will uncover many web sites still in their
+                                                    infancy. Various versions have evolved over the years, sometimes
+                                                    by accident, sometimes on purpose (injected humour and the like</p>
+                                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                    nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                    erat, sed diam voluptua. At vero eos et</p>
+                                            </div> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+    {% comment %}
+    {% include 'side_bar.html' %}
+    {% endcomment %}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+    {% comment %}
+    {% include 'country_selector.html' %}
+    {% endcomment %}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}
