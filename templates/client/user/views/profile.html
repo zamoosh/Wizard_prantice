@@ -8,21 +8,33 @@
 {% endblock %}
 {% block js %}
     <script>
-        $('a[href="#next"], a[href="#finish"]').on('click', function () {
-            $.ajax({
-                url: '{% url "client:user:api_profile" %}',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    'first_name': $('input[name="first_name"]').val(),
-                    'last_name': $('input[name="last_name"]').val(),
-                    'email': $('input[name="email"]').val()
-                },
-                error: function (error) {
-                    console.log(error);
-                }
+        var is_active = false;
+        {% if user.is_active %}
+            is_active = true;
+        {% endif %}
+    </script>
+    <script>
+        $(window).on('load', function () {
+            $('a[href="#next"], a[href="#finish"]').on('click', function () {
+                $.ajax({
+                    url: '{% url "client:user:api_profile" %}',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        'cellphone': $('input[name="cellphone"]').val(),
+                        'first_name': $('input[name="first_name"]').val(),
+                        'last_name': $('input[name="last_name"]').val(),
+                        'email': $('input[name="email"]').val()
+                    },
+                    success: function (context) {
+                    },
+
+                    error: function (error) {
+
+                    }
+                });
+                console.log('click on a');
             });
-            console.log('click on a');
         });
     </script>
 {% endblock %}
@@ -81,9 +93,26 @@
                             {% endcomment %}
                             <div class="card-body">
                                 <div id="wizard2">
+                                    <h3>اطلاعات ارتباطی</h3>
+                                    <section>
+                                        <form name="cellphone" action="">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="form-control-label">
+                                                        شماره تلفن همراه
+                                                        <span class="tx-danger">*</span>
+                                                    </label>
+                                                    <input class="form-control" value="{{ user.cellphone }}"
+                                                        id="cellphone" name="cellphone"
+                                                        placeholder="شماره‌ی تلفن" required="" type="text">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </section>
+
                                     <h3>اطلاعات فردی</h3>
                                     <section>
-                                        <form action="" class="form">
+                                        <form name="personal" action="" class="form">
                                             <div class="row ">
                                                 <div class="col-md-5 col-lg-4">
                                                     <label class="form-control-label">نام
@@ -113,7 +142,7 @@
                                             </label>
                                             <input class="form-control"
                                                 id="email" name="email" placeholder="Enter email address"
-                                                required="" type="email">
+                                                required="" value="{{ user.email }}" type="email">
                                         </div>
                                     </section>
                                     {% comment %} <h3>Payment Details</h3>
