@@ -11,6 +11,14 @@ class User(AbstractUser):
     date_of_establishment = models.DateField(null=True)
     extra = models.JSONField(default=dict)
 
+    USERNAME_FIELD = 'cellphone'
+
+    @staticmethod
+    def get_user(cellphone):
+        if User.objects.filter(cellphone=cellphone).exists():
+            return User.objects.get(cellphone=cellphone)
+        return User()
+
     def login(self, request):
         if self.is_active:
             login(request, self)

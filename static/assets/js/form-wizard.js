@@ -10,38 +10,81 @@
     });
 
     // WIZARD 2
-    $('#wizard2').steps({
-        headerTag: 'h3',
-        bodyTag: 'section',
-        autoFocus: true,
-        titleTemplate: `<span class="number">#index#</span> <span class="me-4">#title#</span>`,
-        onStepChanging: function(event, currentIndex, newIndex) {
-            if (currentIndex < newIndex) {
-                // Step 1 form validation
-                if (currentIndex === 0) {
-                    let fname = $('#first_name').parsley();
-                    let lname = $('#last_name').parsley();
-                    if (fname.isValid() && lname.isValid()) {
-                        return true;
-                    } else {
-                        fname.validate();
-                        lname.validate();
-                    }
-                }
-                // Step 2 form validation
-                if (currentIndex === 1) {
-                    let email = $('#email').parsley();
-                    if (email.isValid()) {
-                        return true;
-                    } else {
-                        email.validate();
-                    }
-                }
-                // Always allow step back to the previous step even if the current step is not valid.
+    
+    $.fn.steps.setStep = function (step) {
+        var currentIndex = $(this).steps('getCurrentIndex');
+        for (var i = 0; i < Math.abs(step - currentIndex); i++) {
+            if (step > currentIndex) {
+                $(this).steps('next');
             } else {
-                return true;
+                $(this).steps('previous');
             }
         }
+    };
+    
+    
+    $(window).on('load', function () {
+        $('#wizard2').steps({
+            headerTag: 'h3',
+            bodyTag: 'section',
+            autoFocus: true,
+            enableAllSteps: is_active,
+            titleTemplate: `<span class="number">#index#</span> <span class="me-4">#title#</span>`,
+            
+            onFinished: function () {
+                alert('finish!');
+            },
+            
+            labels: {
+                finish: "پایان",
+                next: "ادامه",
+                previous: "قبلی"
+            },
+            
+            onStepChanging: function(event, currentIndex, newIndex) {
+                if (currentIndex < newIndex) {
+
+                    // Step 1 form validation
+                    if (currentIndex === 0) {
+                        let cellphone = $('#cellphone').parsley();
+                        if (cellphone.isValid())
+                            return true;
+                        else {
+                            cellphone.validate();
+                            $('.parsley-required').html('این قسمت الزامی است');
+                        }
+                    }
+
+                    // Step 2 form validation
+                    if (currentIndex === 1) {
+                        return true;
+                        let first_name = $('#first_name').parsley();
+                        let last_name = $('#last_name').parsley();
+                        if (first_name.isValid() && last_name.isValid()) {
+                            return true;
+                        } else {
+                            first_name.validate();
+                            last_name.validate();
+                        }
+                    }
+
+                    // Step 3 form validation
+                    if (currentIndex === 2) {
+                        return true;
+                        let email = $('#email').parsley();
+                        if (email.isValid()) {
+                            return true;
+                        } else {
+                            email.validate();
+                        }
+                    }
+                    // Always allow step back to the previous step even if the current step is not valid.
+                } else {
+                    return true;
+                }
+            }
+        });
+        $("#wizard2").steps('setStep', 0);
     });
 
     // WIZARD 3
