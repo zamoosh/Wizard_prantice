@@ -119,7 +119,7 @@
                 'addFontColor': 'Add font color',
                 'addFontSize': 'Add font size',
                 'addImage': 'Add image',
-                'addVideo': 'Add video',
+                'addVideo': 'Add videos',
                 'addFile': 'Add file',
                 'addURL': 'Add URL',
                 'addTable': 'Add table',
@@ -163,7 +163,7 @@
             $btnFontColor = $('<a />', { class: "richText-btn", "title": settings.translations.addFontColor, html: '<span class="fa fa-paint-brush"></span>' }), // font color
             $btnFontSize = $('<a />', { class: "richText-btn", "title": settings.translations.addFontSize, html: '<span class="fa fa-text-height"></span>' }), // font color
             $btnImageUpload = $('<a />', { class: "richText-btn", "title": settings.translations.addImage, html: '<span class="fa fa-image"></span>' }), // image
-            $btnVideoEmbed = $('<a />', { class: "richText-btn", "title": settings.translations.addVideo, html: '<span class="fa fa-video-camera fa-video"></span>' }), // video
+            $btnVideoEmbed = $('<a />', { class: "richText-btn", "title": settings.translations.addVideo, html: '<span class="fa fa-videos-camera fa-videos"></span>' }), // videos
             $btnFileUpload = $('<a />', { class: "richText-btn", "title": settings.translations.addFile, html: '<span class="fa fa-file-text-o far fa-file-alt"></span>' }), // file
             $btnURLs = $('<a />', { class: "richText-btn", "title": settings.translations.addURL, html: '<span class="fa fa-link"></span>' }), // urls/links
             $btnTable = $('<a />', { class: "richText-btn", "title": settings.translations.addTable, html: '<span class="fa fa-table"></span>' }), // table
@@ -254,7 +254,7 @@
         $linksDropdown.append($linksForm);
         $btnURLs.append($dropdownOuter.clone().append($linksDropdown.prepend($dropdownClose.clone())));
 
-        /* box dropdown for video embedding */
+        /* box dropdown for videos embedding */
         var $videoDropdown = $dropdownBox.clone();
         var $videoForm = $form.clone().attr("id", "richText-Video").attr("data-editor", editorID);
         $videoForm.append(
@@ -645,7 +645,7 @@
             doSave(editorID);
         });
 
-        // embedding video
+        // embedding videos
         $(document).on("click", "#richText-Video button.btn", function(event) {
             event.preventDefault();
             var $button = $(this);
@@ -1716,7 +1716,7 @@
 
 
         /**
-         * Get video embed code from URL
+         * Get videos embed code from URL
          * @param {string} url Video URL
          * @param {string} size Size in the form of widthxheight
          * @return {string|boolean}
@@ -1728,7 +1728,7 @@
                 success = false;
 
             if (!video) {
-                // video URL not supported
+                // videos URL not supported
                 return false;
             }
 
@@ -1754,13 +1754,13 @@
                 html += '<iframe src="https://' + youtubeDomain + '/embed/' + video.id + '?ecver=2" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
                 success = true;
             } else if (video.platform === "Vimeo") {
-                html += '<iframe src="https://player.vimeo.com/video/' + video.id + '" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                html += '<iframe src="https://player.vimeo.com/videos/' + video.id + '" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
                 success = true;
             } else if (video.platform === "Facebook") {
-                html += '<iframe src="https://www.facebook.com/plugins/video.php?href=' + encodeURI(url) + '&show_text=0&width=' + size[0] + '" width="' + size[0] + '" height="' + size[1] + '" style="' + (responsive === true ? 'position:absolute;width:100%;height:100%;left:0;border:none;overflow:hidden"' : 'border:none;overflow:hidden') + '" scrolling="no" frameborder="0" allowTransparency="true" ' + allowfullscreen + '></iframe>';
+                html += '<iframe src="https://www.facebook.com/plugins/videos.php?href=' + encodeURI(url) + '&show_text=0&width=' + size[0] + '" width="' + size[0] + '" height="' + size[1] + '" style="' + (responsive === true ? 'position:absolute;width:100%;height:100%;left:0;border:none;overflow:hidden"' : 'border:none;overflow:hidden') + '" scrolling="no" frameborder="0" allowTransparency="true" ' + allowfullscreen + '></iframe>';
                 success = true;
             } else if (video.platform === "Dailymotion") {
-                html += '<iframe frameborder="0" width="' + size[0] + '" height="' + size[1] + '" src="//www.dailymotion.com/embed/video/' + video.id + '"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                html += '<iframe frameborder="0" width="' + size[0] + '" height="' + size[1] + '" src="//www.dailymotion.com/embed/videos/' + video.id + '"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
                 success = true;
             }
 
@@ -1776,7 +1776,7 @@
         }
 
         /**
-         * Returns the unique video ID
+         * Returns the unique videos ID
          * @param {string} url
          * return {object|boolean}
          **/

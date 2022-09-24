@@ -3,3 +3,5 @@ db.sqlite3
 venv
 *.pyc
 media
+*.mp4
+*.mp3

@@ -3732,7 +3732,7 @@
 								tooltip: t.lang.image.image,
 								click: t.context.createInvokeHandler("imageDialog.show")
 							}).render()
-						})), this.context.memo("button.video", (function() {
+						})), this.context.memo("button.videos", (function() {
 							return t.button({
 								contents: t.ui.icon(t.options.icons.video),
 								tooltip: t.lang.video.video,
@@ -4503,8 +4503,8 @@
 					key: "initialize",
 					value: function() {
 						var t = this.options.dialogsInBody ? this.$body : this.options.container,
-							e = ['<div class="form-group note-form-group row-fluid">', '<label for="note-dialog-video-url-'.concat(this.options.id, '" class="note-form-label">').concat(this.lang.video.url, ' <small class="text-muted">').concat(this.lang.video.providers, "</small></label>"), '<input id="note-dialog-video-url-'.concat(this.options.id, '" class="note-video-url form-control note-form-control note-input" type="text"/>'), "</div>"].join(""),
-							n = '<input type="button" href="#" class="'.concat("btn btn-primary note-btn note-btn-primary note-video-btn", '" value="').concat(this.lang.video.insert, '" disabled>');
+							e = ['<div class="form-group note-form-group row-fluid">', '<label for="note-dialog-videos-url-'.concat(this.options.id, '" class="note-form-label">').concat(this.lang.video.url, ' <small class="text-muted">').concat(this.lang.video.providers, "</small></label>"), '<input id="note-dialog-videos-url-'.concat(this.options.id, '" class="note-videos-url form-control note-form-control note-input" type="text"/>'), "</div>"].join(""),
+							n = '<input type="button" href="#" class="'.concat("btn btn-primary note-btn note-btn-primary note-videos-btn", '" value="').concat(this.lang.video.insert, '" disabled>');
 						this.$dialog = this.ui.dialog({
 							title: this.lang.video.insert,
 							fade: this.options.dialogsFade,
@@ -4550,18 +4550,18 @@
 							e = i()("<iframe>").attr("frameborder", 0).attr("src", "//www.youtube.com/embed/" + m + (v > 0 ? "?start=" + v : "")).attr("width", "640").attr("height", "360")
 						} else if (o && o[0].length) e = i()("<iframe>").attr("frameborder", 0).attr("src", "https://instagram.com/p/" + o[1] + "/embed/").attr("width", "612").attr("height", "710").attr("scrolling", "no").attr("allowtransparency", "true");
 						else if (r && r[0].length) e = i()("<iframe>").attr("frameborder", 0).attr("src", r[0] + "/embed/simple").attr("width", "600").attr("height", "600").attr("class", "vine-embed");
-						else if (a && a[3].length) e = i()("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>").attr("frameborder", 0).attr("src", "//player.vimeo.com/video/" + a[3]).attr("width", "640").attr("height", "360");
-						else if (s && s[2].length) e = i()("<iframe>").attr("frameborder", 0).attr("src", "//www.dailymotion.com/embed/video/" + s[2]).attr("width", "640").attr("height", "360");
+						else if (a && a[3].length) e = i()("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>").attr("frameborder", 0).attr("src", "//player.vimeo.com/videos/" + a[3]).attr("width", "640").attr("height", "360");
+						else if (s && s[2].length) e = i()("<iframe>").attr("frameborder", 0).attr("src", "//www.dailymotion.com/embed/videos/" + s[2]).attr("width", "640").attr("height", "360");
 						else if (l && l[1].length) e = i()("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>").attr("frameborder", 0).attr("height", "498").attr("width", "510").attr("src", "//player.youku.com/embed/" + l[1]);
 						else if (c && c[1].length || u && u[2].length) {
 							var w = c && c[1].length ? c[1] : u[2];
 							e = i()("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>").attr("frameborder", 0).attr("height", "310").attr("width", "500").attr("src", "https://v.qq.com/txp/iframe/player.html?vid=" + w + "&amp;auto=0")
-						} else if (d || h || f) e = i()("<video controls>").attr("src", t).attr("width", "640").attr("height", "360");
+						} else if (d || h || f) e = i()("<videos controls>").attr("src", t).attr("width", "640").attr("height", "360");
 						else {
 							if (!p || !p[0].length) return !1;
 							e = i()("<iframe>").attr("frameborder", 0).attr("src", "https://www.facebook.com/plugins/video.php?href=" + encodeURIComponent(p[0]) + "&show_text=0&width=560").attr("width", "560").attr("height", "301").attr("scrolling", "no").attr("allowtransparency", "true")
 						}
-						return e.addClass("note-video-clip"), e[0]
+						return e.addClass("note-videos-clip"), e[0]
 					}
 				}, {
 					key: "show",
@@ -4581,8 +4581,8 @@
 					value: function() {
 						var t = this;
 						return i.a.Deferred((function(e) {
-							var n = t.$dialog.find(".note-video-url"),
-								o = t.$dialog.find(".note-video-btn");
+							var n = t.$dialog.find(".note-videos-url"),
+								o = t.$dialog.find(".note-videos-btn");
 							t.ui.onDialogShown(t.$dialog, (function() {
 								t.context.triggerEvent("dialog.shown"), n.on("input paste propertychange", (function() {
 									t.ui.toggleBtn(o, n.val())
@@ -5206,7 +5206,7 @@
 						underline: "note-icon-underline",
 						undo: "note-icon-undo",
 						unorderedlist: "note-icon-unorderedlist",
-						video: "note-icon-video"
+						video: "note-icon-videos"
 					}
 				}
 			})

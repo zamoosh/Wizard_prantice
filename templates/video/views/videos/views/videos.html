@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% load jformat %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/plugins/plyr/plyr.css' %}">
+{% endblock %}
+{% block js %}
+    <!-- PLYR JS -->
+    <script src="{% static 'assets/plugins/plyr/plyr.js' %}"></script>
+
+    <!-- CUSTOM PLYR JS -->
+    <script src="{% static 'assets/plugins/plyr/Plyr.js' %}"></script>
+
+    <script src="{% static 'assets/plugins/toastify/toastify.js' %}"></script>
+
+    <script>
+        let player = new PlyrPlayer('#player');
+    </script>
+{% endblock %}
+{% block body %}
+
+    <!-- GLOBAL-LOADER -->
+    {% include 'loader.html' %}
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- app-Header -->
+    {% comment %}{% include 'header.html' %}{% endcomment %}
+    <!-- /app-Header -->
+
+    <!--APP-SIDEBAR-->
+    {% comment %}{% include 'menu.html' %}{% endcomment %}
+
+    <!--app-content open-->
+    <div class="main-content mt-0">
+        <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+                <!-- PAGE-HEADER OPTIONAL TO WRITE SOME DATA ABOUT request.user -->
+                <div class="page-header">
+                    <div class="d-flex">
+                        <h1 class="page-title px-2">
+                            {% if request.META.HTTP_REFERER %}
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <i class="fa fa-arrow-right"></i>
+                                    برگشت
+                                </a>
+                            {% endif %}
+                        </h1>
+                        <h1 class="page-title px-2">ویدئوها</h1>
+                    </div>
+                    {% comment %} <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'client:users' %}">کاربران</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">ویرایش کاربر</li>
+                        </ol>
+                    </div> {% endcomment %}
+                </div>
+                <!-- PAGE-HEADER END -->
+
+                <!-- write your code here -->
+                <a href="{% url 'video:videos:upload' %}">upload</a>
+                <br>
+                <video playsinline
+                       controls
+                       crossorigin
+                       id="player"
+                       data-poster="">
+                    {% for video_file in video.videofile_set.all %}
+                        {{ video_file }}
+                        <source src="{{ video_file.file.url }}" type="video/mp4" size="640" />
+                    {% endfor %}
+                    <!-- Captions are optional -->
+                    <!-- <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default /> -->
+                    <track src="">
+                </video>
+                <br><br><br>
+                <!-- /write your code here -->
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <!-- Sidebar-right -->
+    {% comment %}
+    {% include 'side_bar.html' %}
+    {% endcomment %}
+    <!--/Sidebar-right-->
+
+    <!-- Country-selector modal-->
+    {% comment %}
+    {% include 'country_selector.html' %}
+    {% endcomment %}
+    <!-- Country-selector modal-->
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+    <!-- FOOTER END -->
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+{% endblock %}

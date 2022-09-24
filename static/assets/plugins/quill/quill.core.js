@@ -3207,7 +3207,7 @@ var Selection = function () {
 
 function contains(parent, descendant) {
   try {
-    // Firefox inserts inaccessible nodes around video elements
+    // Firefox inserts inaccessible nodes around videos elements
     descendant.parentNode;
   } catch (e) {
     return false;

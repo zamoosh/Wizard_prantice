@@ -24,11 +24,11 @@
     
     
     $(window).on('load', function () {
-        $('#wizard2').steps({
+        $("#wizard2").steps({
             headerTag: 'h3',
             bodyTag: 'section',
             autoFocus: true,
-            enableAllSteps: is_active,
+            enableAllSteps: true,
             titleTemplate: `<span class="number">#index#</span> <span class="me-4">#title#</span>`,
             
             onFinished: function () {
@@ -84,7 +84,11 @@
                 }
             }
         });
-        $("#wizard2").steps('setStep', 0);
+        $("#wizard2").steps('add', {
+            title: "HTML code",
+            content: "<strong>HTML code</strong>"
+        });
+        // $("#wizard2").steps('setStep', 0);
     });
 
     // WIZARD 3

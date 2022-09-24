@@ -617,9 +617,9 @@
     };
 
     /**
-     *  @desc Check the given src is video
+     *  @desc Check the given src is videos
      *  @param {String} src
-     *  @return {Object} video type
+     *  @return {Object} videos type
      *  Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
      */
     Plugin.prototype.isVideo = function (src, index) {
@@ -843,7 +843,7 @@
         var _isVideo = _this.isVideo(_src, index);
         if (!_lgUtils2.default.hasClass(_this.___slide[index], 'lg-loaded')) {
             if (iframe) {
-                _this.___slide[index].insertAdjacentHTML('afterbegin', '<div class="lg-video-cont" style="max-width:' + _this.s.iframeMaxWidth + '"><div class="lg-video"><iframe class="lg-object" frameborder="0" src="' + _src + '"  allowfullscreen="true"></iframe></div></div>');
+                _this.___slide[index].insertAdjacentHTML('afterbegin', '<div class="lg-videos-cont" style="max-width:' + _this.s.iframeMaxWidth + '"><div class="lg-videos"><iframe class="lg-object" frameborder="0" src="' + _src + '"  allowfullscreen="true"></iframe></div></div>');
             } else if (_hasPoster) {
                 var videoClass = '';
                 if (_isVideo && _isVideo.youtube) {
@@ -854,9 +854,9 @@
                     videoClass = 'lg-has-html5';
                 }
 
-                _this.___slide[index].insertAdjacentHTML('beforeend', '<div class="lg-video-cont ' + videoClass + ' "><div class="lg-video"><span class="lg-video-play"></span><img class="lg-object lg-has-poster" src="' + _poster + '" /></div></div>');
+                _this.___slide[index].insertAdjacentHTML('beforeend', '<div class="lg-videos-cont ' + videoClass + ' "><div class="lg-videos"><span class="lg-videos-play"></span><img class="lg-object lg-has-poster" src="' + _poster + '" /></div></div>');
             } else if (_isVideo) {
-                _this.___slide[index].insertAdjacentHTML('beforeend', '<div class="lg-video-cont "><div class="lg-video"></div></div>');
+                _this.___slide[index].insertAdjacentHTML('beforeend', '<div class="lg-videos-cont "><div class="lg-videos"></div></div>');
                 _lgUtils2.default.trigger(_this.el, 'hasVideo', {
                     index: index,
                     src: _src,
@@ -1374,7 +1374,7 @@
                 _lgUtils2.default.on(_this.___slide[i], 'mousedown.lg', function (e) {
                     // execute only on .lg-object
                     if (!_lgUtils2.default.hasClass(_this.outer, 'lg-zoomed')) {
-                        if (_lgUtils2.default.hasClass(e.target, 'lg-object') || _lgUtils2.default.hasClass(e.target, 'lg-video-play')) {
+                        if (_lgUtils2.default.hasClass(e.target, 'lg-object') || _lgUtils2.default.hasClass(e.target, 'lg-videos-play')) {
                             e.preventDefault();
 
                             if (!_this.lgBusy) {
@@ -1412,7 +1412,7 @@
                     isMoved = false;
                     _this.touchEnd(endCoords - startCoords);
                     _lgUtils2.default.trigger(_this.el, 'onDragend');
-                } else if (_lgUtils2.default.hasClass(e.target, 'lg-object') || _lgUtils2.default.hasClass(e.target, 'lg-video-play')) {
+                } else if (_lgUtils2.default.hasClass(e.target, 'lg-object') || _lgUtils2.default.hasClass(e.target, 'lg-videos-play')) {
                     _lgUtils2.default.trigger(_this.el, 'onSlideClick');
                 }
 

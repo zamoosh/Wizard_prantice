@@ -7,7 +7,7 @@ def api_profile(request):
     user.first_name = request.GET.get('first_name')
     user.last_name = request.GET.get('last_name')
     user.email = request.GET.get('email')
-    if user.cellphone and user.is_anonymous:
+    if user.cellphone and (not user.is_anonymous):
         user.login(request)
         user.save()
         return JsonResponse({}, status=200)

@@ -16,6 +16,7 @@ class User(AbstractUser):
     @staticmethod
     def get_user(cellphone):
         if User.objects.filter(cellphone=cellphone).exists():
+            print('exists')
             return User.objects.get(cellphone=cellphone)
         return User()
 

@@ -257,10 +257,10 @@
 						haspreview = true;
 						preview = $('<audio>').attr('src', url).prop('controls', true);
 					}
-					else if (data.files[0].type.lastIndexOf('video/', 0) > -1 && videoelem.canPlayType && videoelem.canPlayType(data.files[0].type))
+					else if (data.files[0].type.lastIndexOf('videos/', 0) > -1 && videoelem.canPlayType && videoelem.canPlayType(data.files[0].type))
 					{
 						haspreview = true;
-						preview = $('<video>').attr('src', url).prop('controls', true);
+						preview = $('<videos>').attr('src', url).prop('controls', true);
 					}
 				}
 			}

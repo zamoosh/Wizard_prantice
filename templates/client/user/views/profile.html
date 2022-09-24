@@ -35,6 +35,10 @@
                 });
                 console.log('click on a');
             });
+            $('a[href="#next"], a[href="#finish"], a[href="#previous"]').on('click', function () {
+                let a = $("#wizard2").steps('getCurrentIndex');
+                console.log(a);
+            });
         });
     </script>
 {% endblock %}
